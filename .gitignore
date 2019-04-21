@@ -2,6 +2,11 @@
 __pycache__/
 *$py.class
 
+*/__pycache__/*
+model/bp/__pycache__/
+*.iml
+.idea/
+
 # C extensions
 *.so
 
