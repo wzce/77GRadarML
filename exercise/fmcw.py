@@ -35,7 +35,7 @@ def generate_speed_and_distance_img_3d(frame_chunk, frame_index, fiel_name):
     ax.set_xlabel('速度维')
     ax.set_ylabel('距离维')
     ax.set_zlabel('信号强度')
-    plt.savefig("C:\\Users\\zt\\Desktop\\2d_FFT\\" + fiel_name + "_" + str(frame_index) + ".pdf")
+    plt.savefig("C:\\Users\\zt\\Desktop\\2d_FFT\\" + fiel_name + "_" + str(frame_index) + ".jpeg")
     # plt.show()
 
 

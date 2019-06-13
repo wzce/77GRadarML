@@ -4,8 +4,14 @@ import random
 import numpy as np
 import os
 
-config = data_config.DataConfig()
-DATA_DIR = config.process_data_dir
+# if data_config.config_type == 2:
+#     config = data_config.LinuxDataConfig()
+# elif data_config.config_type == 1:
+#     config = data_config.MutiGoalDataConfig()
+# else:
+#     config = data_config.DataConfig()
+config = data_config.fetch_config()
+DATA_DIR = config.processed_data_dir
 
 PLAYGROUND_TRAIN_DATA_INPUT = os.path.join(DATA_DIR, config.train_data_input)
 PLAYGROUND_TRAIN_DATA_LABEL = os.path.join(DATA_DIR, config.train_data_label)
@@ -32,7 +38,7 @@ def load_playground_data():
         test_data_label = np.load(PLAYGROUND_TEST_DATA_LABEL)
     else:
 
-        train_data_path = os.path.join(config.process_data_dir, config.train_data_file_name)
+        train_data_path = os.path.join(config.processed_data_dir, config.train_data_file_name)
         if os.path.exists(train_data_path):
             data_list = np.load(train_data_path)
         else:
@@ -72,7 +78,7 @@ def load_pg_test_data():
 
 
 def load_val_data():
-    val_data_path = os.path.join(config.process_data_dir, config.val_data_file_name)
+    val_data_path = os.path.join(config.processed_data_dir, config.val_data_file_name)
     if os.path.exists(val_data_path):
         val_data = np.load(val_data_path)
     else:

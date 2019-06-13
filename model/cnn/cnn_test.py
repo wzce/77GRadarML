@@ -22,13 +22,22 @@ def model_test(model, input_data, label_data, is_debug=False, line=0.1):
             print('\n<----------------------------------------------------------', step)
         x = input_data[step:(step + 1)]
         y = label_data[step:(step + 1)]
-        max_y_index = 0
-        # 求y的最大值下标
-        for i in range(len(y[0])):
-            if y[0][i] >= y[0][max_y_index]:
-                max_y_index = i
 
-        data_sca[max_y_index] = data_sca[max_y_index] + 1
+        right_location1 = 0
+        right_location2 = 0
+
+        # max_y_index = 0
+        # # 求y的最大值下标
+        for i in range(len(y[0])):
+            if y[0][i] >= 1:
+                if right_location1 == 0:
+                    right_location1 = i
+                else:
+                    right_location2 = i
+        #
+        # data_sca[max_y_index] = data_sca[max_y_index] + 1
+
+        # print('---------------------location-------------------------->',right_location1, ' |  ', right_location2)
 
         x = np.array(x).reshape(1, 1, 64)
         y = np.array(y).reshape(1, 1, 64)
@@ -51,15 +60,15 @@ def model_test(model, input_data, label_data, is_debug=False, line=0.1):
             print('predict:   ', pd)
             print('difference:', res)
 
-        if standard_define.is_satisfied_standard2(pd, max_y_index):
+        if standard_define.is_satisfied_standard2(pd, right_location1, right_location2):
             st2_num = st2_num + 1
-            st2[max_y_index] = st2[max_y_index] + 1
+            # st2[max_y_index] = st2[max_y_index] + 1
             if is_debug:
                 print('st2_right')
 
-        if standard_define.is_satisfied_standard3(pd, max_y_index):
+        if standard_define.is_satisfied_standard3(pd, right_location1, right_location2):
             st3_num = st3_num + 1
-            st3[max_y_index] = st3[max_y_index] + 1
+            # st3[max_y_index] = st3[max_y_index] + 1
             if is_debug:
                 print('st3_right')
 
@@ -72,7 +81,7 @@ def model_test(model, input_data, label_data, is_debug=False, line=0.1):
             print('correct: {}'.format(correct))
         if correct == 1:
             # right_index = int(max_y_index/10)
-            st1[max_y_index] = st1[max_y_index] + 1
+            # st1[max_y_index] = st1[max_y_index] + 1
             correct_num = correct_num + 1  # 标准1，完全匹配
         if is_debug:
             print('-------------------------------------------------------------->\n')
@@ -81,10 +90,10 @@ def model_test(model, input_data, label_data, is_debug=False, line=0.1):
         print('total:', (step + 1), ' | correct_num:', correct_num, '| complete_correct_rate:', correct_num / total_num,
               '| st2_num: ', st2_num, ' |st2_rate: ', st2_num / total_num,
               '| st3_num: ', st3_num, ' |st3_rate: ', st3_num / total_num)
-        print('st1 : ', st1)
-        print('data_sca : ', data_sca)
+        # print('st1 : ', st1)
+        # print('data_sca : ', data_sca)
 
-        right_distribute.distribute_cv(st1, data_sca, 36, 'cnn_st1完全正确预测分布')
+        # right_distribute.distribute_cv(st1, data_sca, 36, 'cnn_st1完全正确预测分布')
         # right_distribute.distribute_cv(st2, data_sca, 36, 'cnn_st2相对预测正确率')
         # right_distribute.distribute_cv(st3, data_sca, 36, 'cnn_st3相对预测正确率')
 
@@ -92,9 +101,10 @@ def model_test(model, input_data, label_data, is_debug=False, line=0.1):
 
 
 if __name__ == '__main__':
-    config = data_config.DataConfig()
+    # config = data_config.DataConfig()
+    config = data_config.fetch_config()
     model_location = config.cnn_model_save_dir
-    model_path = os.path.join(model_location, 'cnn_3060.pkl')
+    model_path = os.path.join(model_location, 'cnn2_1_0613cnn_1530.pkl')
     model = torch.load(model_path)
     # input_data, label_data = radar_data.load_val_data(
     #     data_path="D:\home\zeewei\projects\\77GRadar\processed_data\one_line_train_0406.npy")

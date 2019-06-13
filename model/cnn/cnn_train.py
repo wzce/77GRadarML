@@ -21,7 +21,7 @@ def loss_fn(predict, target):
 #
 #
 # def loss_fn(predict, target):
-#     one_mask = torch.eq(target, 1).cuda(0)
+#     one_mask = torch.eq(target, 1).cuda (0)
 #     # one_mask[0] = 1
 #     zero_mask = torch.randint(SEQ_LEN, size=target.shape).cuda(0) > 58
 #     mask = one_mask | zero_mask
@@ -35,8 +35,8 @@ def loss_fn(predict, target):
 
 
 def train(model, model_save_dir, train_parameter_file, epochs=1000, save_line=0.7, learn_rate=LR):
-    train_data_input, train_data_label, test_data_input_, test_data_label_ = radar_data.load_playground_data()
-    test_data_input, test_data_label = radar_data.load_val_data()
+    train_data_input, train_data_label, test_data_input, test_data_label = radar_data.load_playground_data()
+    # test_data_input, test_data_label = radar_data.load_val_data()
     td = test_data_input
     tl = test_data_label
     test_data_num = len(test_data_input)
@@ -82,7 +82,7 @@ def train(model, model_save_dir, train_parameter_file, epochs=1000, save_line=0.
 
         if epoch % 15 == 0:
 
-            st1, st2, st3 = cnn_test.model_test(model, td, tl, line=0.15)
+            st1, st2, st3 = cnn_test.model_test(model, td, tl, line=0.25, is_debug=False)
 
             if test_loss < min_loss:
                 min_loss = test_loss
@@ -113,9 +113,15 @@ def train(model, model_save_dir, train_parameter_file, epochs=1000, save_line=0.
 
 
 if __name__ == '__main__':
-    config = data_config.DataConfig()
+    # if data_config.config_type == 2:
+    #     config = data_config.LinuxDataConfig()
+    # elif data_config.config_type == 1:
+    #     config = data_config.MutiGoalDataConfig()
+    # else:
+    #     config = data_config.DataConfig()
+    config = data_config.fetch_config()
     cnn_model_dir = config.cnn_model_save_dir
     model = cnn_model.Radar_Cnn_2_1().cuda(0)
     # model = torch.load("D:\home\zeewei\projects\\77GRadar\model\cnn\model_dir\cnn2_1\cnn9990.pkl")
-    epochs = 5000
+    epochs = 3000
     train(model, cnn_model_dir, config.train_parameter_file, epochs, 2, learn_rate=1e-3)

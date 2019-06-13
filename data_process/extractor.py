@@ -7,8 +7,16 @@ from config import data_config
 # from data_process import radar_data_decode
 from data_process import radar_data_decoder
 
-config = data_config.DataConfig()
+# config = data_config.DataConfig()
 
+# if data_config.config_type == 2:
+#     config = data_config.LinuxDataConfig()
+# elif data_config.config_type == 1:
+#     config = data_config.MutiGoalDataConfig()
+# else:
+#     config = data_config.DataConfig()
+
+config = data_config.fetch_config()
 ORIGIN_DATA_DIR = config.origin_train_data_dir
 PROCESSED_DATA_DIR = os.path.join(config.project_base, 'processed_data')
 INPUT_DATA_FILE_NAME = 'all_two_lines_data_0406_4avg.npy'  # 两条线路的全部训练数据
@@ -52,6 +60,7 @@ class FeatureExtractor:
         goal_location_data = []
         for file in file_lists:
             target_file = os.path.join(goal_data_folder_path, file)
+            print('处理文件夹： ', target_file)
             if file[-4:] == '.txt':
                 goal_location_data = self.generate_goal_location_list(target_file)
             if file[-4:] == '.dat':  # 找出所有含数据的文件夹
