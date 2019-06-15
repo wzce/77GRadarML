@@ -36,7 +36,7 @@ def loss_fn(predict, target):
 
 def train(model, model_save_dir, train_parameter_file, epochs=1000, save_line=0.7, learn_rate=LR):
     train_data_input, train_data_label, test_data_input, test_data_label = radar_data.load_playground_data()
-    # test_data_input, test_data_label = radar_data.load_val_data()
+    test_data_input, test_data_label = radar_data.load_val_data()
     td = test_data_input
     tl = test_data_label
     test_data_num = len(test_data_input)
@@ -87,7 +87,7 @@ def train(model, model_save_dir, train_parameter_file, epochs=1000, save_line=0.
             if test_loss < min_loss:
                 min_loss = test_loss
             if test_loss < save_line:
-                torch.save(model, model_save_dir + 'cnn_' + str(epoch) + '.pkl')
+                torch.save(model, model_save_dir + '\\cnn_' + str(epoch) + '.pkl')
             print(
                 '{:0=4} \t train_loss:{} \t test_loss: {} \t test_min_loss: {} \t difference: {} \t st1_acc:{} \t st2_acc:{} \t st3_acc:{}'
                     .format(epoch, loss_val, test_loss, min_loss, (test_loss - loss_val), st1, st2, st3))

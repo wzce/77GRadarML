@@ -17,7 +17,17 @@ def is_satisfied_standard2(predict_list, right_location, right_location2=0):
                 return False
 
             for i in range(0, 64):
-                if predict_list[i] == 1 and i != right_location and i != right_location2:
+                if predict_list[i] == 1 \
+                        and i != right_location \
+                        and i != right_location+1 \
+                        and i != right_location-1 \
+                        and i != right_location + 2 \
+                        and i != right_location - 2 \
+                        and i != right_location2 \
+                        and i != right_location2 + 1 \
+                        and i != right_location2 - 1 \
+                        and i != right_location2 + 2 \
+                        and i != right_location2 - 2 :
                     return False
 
             return True

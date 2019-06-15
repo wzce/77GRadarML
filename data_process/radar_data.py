@@ -48,7 +48,7 @@ def load_playground_data():
                 input_data_file_name=config.train_data_file_name)
             data_list = data_extractor.load_data()
         random.shuffle(data_list)  # 随机打乱
-        train_num = int(7 * len(data_list) / 10)  # 训练集与测试集7:3比例,此处如果测试集是按帧取数据而不是按录取的数据组划分则这么做
+        train_num = int(10 * len(data_list) / 10)  # 训练集与测试集7:3比例,此处如果测试集是按帧取数据而不是按录取的数据组划分则这么做
         train_data = data_list[0:train_num]
         test_data = data_list[train_num:]
 

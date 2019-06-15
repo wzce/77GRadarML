@@ -116,7 +116,7 @@ if __name__ == '__main__':
     st2 = []
     st3 = []
 
-    line = 0.1
+    line = 0.15
     st1_val, st2_val, st3_val = model_test(model, input_data[:10000], label_data[0:10000], is_debug=True, line=line)
 
     # correct_st = []
@@ -132,4 +132,4 @@ if __name__ == '__main__':
     #     correct_st.append(st1)
     #     correct_st.append(st2)
     #     correct_st.append(st3)
-    #     np.save("D:\home\zeewei\projects\\77GRadar\model\cnn\\cnn_0410_2_correct_st.npy", correct_st)
+    #     np.save("D:\home\zeewei\projects\\77GRadar\model\cnn\\model_dir\\cnn_0613_onetime_correct_st.npy", correct_st)

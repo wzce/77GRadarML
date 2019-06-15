@@ -76,14 +76,14 @@ def train_process_loss_correct_rate(data_path, file_name, data_len=100):
     # plt.xticks(my_x_ticks)
     plt.yticks(my_y_ticks)
 
-    plt.savefig('{}.pdf'.format(file_name))  # 保存为图片
+    plt.savefig('{}.png'.format(file_name))  # 保存为图片
     plt.show()
 
 
 if __name__ == '__main__':
     # train_process_loss_correct_rate("D:\home\zeewei\projects\\77GRadar\model\cnn\model_dir\classification_loss_rate.npy",
     #                                 'cnn_classification_and_los', data_len=300)
-    train_process_loss_correct_rate("D:\home\zeewei\projects\\77GRadar\model\\rnn\\train_process_0409_2.npy",
-                 'rnn_result',data_len=72)
+    train_process_loss_correct_rate(
+        "D:\home\zeewei\projects\\77GRadar\model\cnn\\model_dir\\cnn_0613_onetime_correct_st.npy", 'muti_result_0613')
 
     # train_result("D:\home\zeewei\projects\\77GRadar\model\cnn\cnn_0410_2_correct_st.npy","cnn_dif_std")
