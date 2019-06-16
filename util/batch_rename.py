@@ -7,8 +7,8 @@ def rename(path):
     file_list = os.listdir(path)  # 该文件夹下所有的文件（包括文件夹）
     for file_name in file_list:  # 遍历所有文件
         print('file: ', file_name)
-        old_file = os.path.join(path,file_name)
-        new_file = os.path.join(path,'2019_03_24_'+file_name)
+        old_file = os.path.join(path, file_name)
+        new_file = os.path.join(path, 'two_goal_' + file_name)
         # i = i + 1
         # Olddir = os.path.join(path, files);  # 原来的文件路径
         # if os.path.isdir(Olddir):  # 如果是文件夹则跳过
@@ -20,5 +20,5 @@ def rename(path):
 
 
 if __name__ == '__main__':
-    path = 'D:\home\\20190324'
+    path = 'D:\home\zeewei\ML_data\mix_goal\\val'
     rename(path)

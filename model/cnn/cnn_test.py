@@ -12,6 +12,7 @@ def model_test(model, input_data, label_data, is_debug=False, line=0.1):
     correct_num = 0
     st2_num = 0
     st3_num = 0
+    st4_num = 0
     total_num = len(input_data)
     st1 = np.zeros(64)
     st2 = np.zeros(64)
@@ -72,6 +73,12 @@ def model_test(model, input_data, label_data, is_debug=False, line=0.1):
             if is_debug:
                 print('st3_right')
 
+        if standard_define.is_satisfied_standard4(pd, right_location1, right_location2):
+            st4_num = st4_num + 1
+            # st3[max_y_index] = st3[max_y_index] + 1
+            if is_debug:
+                print('st4_right')
+
         result = torch.eq(y, predict)
         accuracy = torch.sum(result) / torch.sum(torch.ones(y.shape))
         accuracy = accuracy.data.cpu().numpy()
@@ -83,13 +90,17 @@ def model_test(model, input_data, label_data, is_debug=False, line=0.1):
             # right_index = int(max_y_index/10)
             # st1[max_y_index] = st1[max_y_index] + 1
             correct_num = correct_num + 1  # 标准1，完全匹配
+            if is_debug:
+                print('st1_right')
+
         if is_debug:
             print('-------------------------------------------------------------->\n')
 
     if is_debug:
         print('total:', (step + 1), ' | correct_num:', correct_num, '| complete_correct_rate:', correct_num / total_num,
               '| st2_num: ', st2_num, ' |st2_rate: ', st2_num / total_num,
-              '| st3_num: ', st3_num, ' |st3_rate: ', st3_num / total_num)
+              '| st3_num: ', st3_num, ' |st3_rate: ', st3_num / total_num,
+              '| st4_num: ', st4_num, ' |st4_rate: ', st4_num / total_num)
         # print('st1 : ', st1)
         # print('data_sca : ', data_sca)
 
@@ -104,7 +115,7 @@ if __name__ == '__main__':
     # config = data_config.DataConfig()
     config = data_config.fetch_config()
     model_location = config.cnn_model_save_dir
-    model_path = os.path.join(model_location, 'cnn2_1_0613cnn_1530.pkl')
+    model_path = os.path.join(model_location, 'cnn_1250.pkl')
     model = torch.load(model_path)
     # input_data, label_data = radar_data.load_val_data(
     #     data_path="D:\home\zeewei\projects\\77GRadar\processed_data\one_line_train_0406.npy")
@@ -116,7 +127,7 @@ if __name__ == '__main__':
     st2 = []
     st3 = []
 
-    line = 0.15
+    line = 0.125
     st1_val, st2_val, st3_val = model_test(model, input_data[:10000], label_data[0:10000], is_debug=True, line=line)
 
     # correct_st = []

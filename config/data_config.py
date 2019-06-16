@@ -1,6 +1,7 @@
 import os
 
-config_type = 1
+config_type = 5
+
 
 class DataConfig:
     project_base = 'D:\home\zeewei\projects\\77GRadarML\\'
@@ -37,11 +38,6 @@ class MutiGoalDataConfig(DataConfig):
     cnn_model_save_dir = os.path.join(project_base, 'model\cnn\model_dir\cnn2_1_0613')
     rnn_model_save_dir = os.path.join(project_base, 'model\\rnn\model_save_dir\\rnn2_1_one_0613_2')
 
-    train_data_input = 'pg_train_data_input.npy'
-    train_data_label = 'pg_train_data_label.npy'
-    test_data_input = 'pg_test_data_input.npy'
-    test_data_label = 'pg_test_data_label.npy'
-
     train_parameter_file = os.path.join(project_base, 'model\cnn\model_dir\\train_cnn2_1_0613.npy')
 
     def __init__(self):
@@ -66,6 +62,41 @@ class MutiGoalDataConfig_OneTime(MutiGoalDataConfig):
         pass
 
 
+class TwoGoalsDataConfig(DataConfig):
+    project_base = 'D:\home\zeewei\projects\\77GRadarML\\'
+    origin_train_data_dir = 'D:\home\zeewei\ML_data\\two_goal\\train'
+    origin_val_data_dir = 'D:\home\zeewei\ML_data\\two_goal\\val'
+    processed_data_dir = os.path.join(project_base, 'processed_data\\two_goals')
+    train_data_file_name = 'two_goal_train.npy'
+    val_data_file_name = 'two_goal_val.npy'
+
+    train_result_log = 'train_two_goal_log.npy'
+    cnn_model_save_dir = os.path.join(project_base, 'model\cnn\model_dir\cnn2_1_two_goals')
+    rnn_model_save_dir = os.path.join(project_base, 'model\\rnn\model_save_dir\\rnn2_1_two_goals')
+
+    train_parameter_file = os.path.join(project_base, 'model\cnn\model_dir\\cnn2_1_two_goals.npy')
+
+    def __init__(self):
+        pass
+
+
+class MixGoalsDataConfig(DataConfig):
+    project_base = 'D:\home\zeewei\projects\\77GRadarML\\'
+    origin_train_data_dir = 'D:\home\zeewei\ML_data\\mix_goal\\train'
+    origin_val_data_dir = 'D:\home\zeewei\ML_data\\mix_goal\\val'
+    processed_data_dir = os.path.join(project_base, 'processed_data\\mix_goals')
+    train_data_file_name = 'mix_goal_train.npy'
+    val_data_file_name = 'mix_goal_val.npy'
+
+    train_result_log = 'train_mix_goal_log.npy'
+    cnn_model_save_dir = os.path.join(project_base, 'model\cnn\model_dir\\cnn_2_1_mix_goal_limit_range')
+    rnn_model_save_dir = os.path.join(project_base, 'model\\rnn\model_save_dir\\rnn2_1_mix_goals')
+
+    train_parameter_file = os.path.join(project_base, 'model\cnn\model_dir\\cnn2_1_mix_goals.npy')
+
+    def __init__(self):
+        pass
+
 class LinuxDataConfig(DataConfig):
     origin_train_data_dir = '/home/wzce/radar_data/data_line1/'
     process_data_dir = '/home/wzce/radar_data/processed_data/line1/'
@@ -80,7 +111,11 @@ class LinuxDataConfig(DataConfig):
 
 
 def fetch_config():
-    if config_type == 3:
+    if config_type == 5:
+        config = MixGoalsDataConfig()
+    elif config_type == 4:
+        config = TwoGoalsDataConfig()
+    elif config_type == 3:
         config = LinuxDataConfig()
     elif config_type == 2:
         config = MutiGoalDataConfig_OneTime()

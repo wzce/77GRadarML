@@ -34,9 +34,33 @@ def loss_fn(predict, target):
 #     return loss
 
 
+def data_filter(train_data_input, train_data_label, min, max):
+    input = []
+    label = []
+    for i in range(len(train_data_input)):
+        right_location1 = 0
+        right_location2 = 0
+        for j in range(len(train_data_label[i])):
+            if train_data_label[i][j] >= 1:
+                if right_location1 == 0:
+                    right_location1 = j
+                else:
+                    right_location2 = j
+        if right_location2 == 0:  # 单目标
+            if right_location1 > min and right_location1 < max:
+                input.append(train_data_input[i])
+                label.append(train_data_label[i])
+        else:
+            input.append(train_data_input[i])
+            label.append(train_data_label[i])
+    return input, label
+
+
 def train(model, model_save_dir, train_parameter_file, epochs=1000, save_line=0.7, learn_rate=LR):
     train_data_input, train_data_label, test_data_input, test_data_label = radar_data.load_playground_data()
+    train_data_input, train_data_label = data_filter(train_data_input, train_data_label, 6, 25)
     test_data_input, test_data_label = radar_data.load_val_data()
+    test_data_input, test_data_label = data_filter(test_data_input, test_data_label, 6, 25)
     td = test_data_input
     tl = test_data_label
     test_data_num = len(test_data_input)
@@ -80,9 +104,9 @@ def train(model, model_save_dir, train_parameter_file, epochs=1000, save_line=0.
         test_loss = loss_fn(test_prediction, test_label_tensor)
         test_loss = test_loss.data.cpu().numpy()
 
-        if epoch % 15 == 0:
+        if epoch % 25 == 0:
 
-            st1, st2, st3 = cnn_test.model_test(model, td, tl, line=0.25, is_debug=False)
+            st1, st2, st3 = cnn_test.model_test(model, td, tl, line=0.15, is_debug=False)
 
             if test_loss < min_loss:
                 min_loss = test_loss
@@ -122,6 +146,6 @@ if __name__ == '__main__':
     config = data_config.fetch_config()
     cnn_model_dir = config.cnn_model_save_dir
     model = cnn_model.Radar_Cnn_2_1().cuda(0)
-    # model = torch.load("D:\home\zeewei\projects\\77GRadar\model\cnn\model_dir\cnn2_1\cnn9990.pkl")
+    # model = torch.load("D:\home\zeewei\projects\\77GRadarML\model\cnn\model_dir\cnn2_1_mix_goals\cnn_70.pkl")
     epochs = 3000
     train(model, cnn_model_dir, config.train_parameter_file, epochs, 2, learn_rate=1e-3)
